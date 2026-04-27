@@ -9,9 +9,8 @@ export interface IApi {
  * Тип, определяющий допустимые способы оплаты.
  * 'card' — оплата банковской картой
  * 'cash' — оплата наличными при получении
- * '' — способ оплаты ещё не выбран (начальное состояние)
  */
-export type TPayment = 'card' | 'cash' | '';
+export type TPayment = 'card' | 'cash';
 
 /**
  * Интерфейс товара в каталоге
@@ -26,10 +25,15 @@ export interface IProduct {
 }
 
 /**
+ * Ошибки валидации данных покупателя
+ */
+export type TFormErrors = Partial<Record<keyof IBuyer, string>>;
+
+/**
  * Интерфейс данных покупателя для оформления заказа
  */
 export interface IBuyer {
-    payment: TPayment; // выбранный способ оплаты
+    payment: TPayment | null; // выбранный способ оплаты
     email: string; // электронная почта покупателя
     phone: string; // номер телефона покупателя
     address: string; // адрес доставки

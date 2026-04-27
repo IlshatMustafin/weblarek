@@ -5,59 +5,54 @@ import { IProduct } from '../../types/index';
  * Хранит товары, выбранные пользователем для покупки.
  */
 export class Cart {
-  private _items: IProduct[] = [];
+  private items: IProduct[] = [];
 
   /**
    * Возвращает массив товаров, находящихся в корзине.
-   * @returns — массив товаров корзины.
+   * @returns - массив товаров корзины.
    */
   getItems(): IProduct[] {
-    return this._items;
+    return this.items;
   }
 
   /**
    * Добавляет товар в корзину.
-   * @param product — товар для добавления.
+   * @param product - товар для добавления.
    */
   addItem(product: IProduct): void {
-    this._items.push(product);
+    this.items.push(product);
   }
 
   /**
-   * Удаляет товар из корзины. Удаляет первое вхождение товара с совпадающим id.
-   * @param product — товар для удаления.
+   * Удаляет товар из корзины по его идентификатору.
+   * @param id - идентификатор товара для удаления.
    */
-  removeItem(product: IProduct): void {
-    const index = this._items.findIndex(item => item.id === product.id);
-    if (index !== -1) {
-      this._items.splice(index, 1);
-    }
+  removeItem(id: string): void {
+    this.items = this.items.filter(item => item.id !== id)
   }
 
   /**
    * Полностью очищает корзину.
    */
   clear(): void {
-    this._items = [];
+    this.items = [];
   }
 
   /**
    * Считает и возвращает общую стоимость всех товаров в корзине.
-   * Учитывает только товары с указанной ценой (не null).
+   * Учитывает товары с ценой null как 0.
    * @returns — общая стоимость товаров в корзине.
    */
   getTotalPrice(): number {
-    return this._items.reduce((total, product) => {
-      return product.price !== null ? total + product.price : total;
-    }, 0);
+    return this.items.reduce((total, item) => total + (item.price ?? 0), 0);
   }
 
   /**
-   * Возвращает количество товаров в корзине (с учётом дубликатов).
+   * Возвращает количество товаров в корзине.
    * @returns — количество товаров.
    */
   getItemCount(): number {
-    return this._items.length;
+    return this.items.length;
   }
 
   /**
@@ -66,6 +61,6 @@ export class Cart {
    * @returns — true, если товар есть в корзине, иначе false.
    */
   hasItem(id: string): boolean {
-    return this._items.some(item => item.id === id);
+    return this.items.some(item => item.id === id);
   }
 }

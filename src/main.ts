@@ -4,12 +4,10 @@ import { Catalog } from './components/Models/Catalog';
 import { Cart } from './components/Models/Cart';
 import { Buyer } from './components/Models/Buyer';
 import { apiProducts } from './utils/data';
-// Импорты для работы с API
 import { Api } from './components/base/Api';
 import { ApiService } from './components/Models/ApiService';
-// Импортируем настройки из констант
 import { API_URL } from './utils/constants';
-
+import { CDN_URL } from './utils/constants';
 
 // Создаём экземпляры классов-моделей данных
 const catalogModel = new Catalog();
@@ -35,7 +33,7 @@ console.log('Товары в корзине после добавления:', c
 console.log('Количество товаров в корзине:', cartModel.getItemCount());
 console.log('Общая стоимость корзины:', cartModel.getTotalPrice());
 console.log('Товар 1 в корзине:', cartModel.hasItem('854cef69-976d-4c2a-a18c-2aa45046c390'));
-if (product1) cartModel.removeItem(product1);
+if (product1) cartModel.removeItem(product1.id);
 console.log('Товары в корзине после удаления Товар 1:', cartModel.getItems());
 console.log('Количество товаров в корзине:', cartModel.getItemCount());
 if (product1) cartModel.addItem(product1);
@@ -73,9 +71,13 @@ async function loadRealProductsFromServer() {
 
     // Выполняем запрос к серверу через ApiService
     const productsResponse = await apiService.getProducts();
-
+    // Модифицируем данные, перед сохранением в модель
+    const productsWithCdn = productsResponse.items.map(item => ({
+      ...item,
+      image: CDN_URL + item.image
+    }));
     // Сохраняем массив товаров (с уже пропатченными картинками) в модель
-    catalogModel.setProducts(productsResponse.items);
+    catalogModel.setProducts(productsWithCdn);
 
     console.log('Данные успешно загружены и сохранены в модель.');
     console.log('Пример пути изображения первого товара:', catalogModel.getProducts()[0]?.image);

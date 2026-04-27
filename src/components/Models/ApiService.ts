@@ -1,6 +1,4 @@
-// services/ApiService.ts
-import { IApi, IGetProductsResponse, IOrderRequest, IOrderResponse, IProduct } from '../../types';
-import { CDN_URL } from '../../utils/constants';
+import { IApi, IGetProductsResponse, IOrderRequest, IOrderResponse } from '../../types';
 
 /**
  * Сервис для взаимодействия с API сервера «Веб‑ларёк»
@@ -13,9 +11,6 @@ export class ApiService {
    * @param apiInstance Экземпляр класса `Api`, предоставляющий методы `get` и `post`
    */
   constructor(apiInstance: IApi) {
-    if (!apiInstance) {
-      throw new Error('ApiService: apiInstance не может быть null или undefined');
-    }
     this.apiInstance = apiInstance;
   }
 
@@ -24,32 +19,7 @@ export class ApiService {
    * @returns Promise с объектом, содержащим общее количество товаров и массив товаров
    */
   async getProducts(): Promise<IGetProductsResponse> {
-    const data = await this.apiInstance.get<IGetProductsResponse>('/product');
-    // Добавляем CDN_URL к изображениям
-    return {
-      total: data.total,
-      items: data.items.map(item => ({
-        ...item,
-        image: CDN_URL + item.image
-      }))
-    };
-  }
-
-  /**
-   * Выполняет GET‑запрос к /product/{id} для получения данных о конкретном товаре
-   * @param id Уникальный идентификатор товара
-   * @returns Promise с объектом товара или null, если товар не найден (404)
-   */
-  async getProductById(id: string): Promise<IProduct | null> {
-    try {
-      const item = await this.apiInstance.get<IProduct>(`/product/${id}`);
-      return {
-        ...item,
-        image: CDN_URL + item.image
-      };
-    } catch (error) {
-      return null;
-    }
+    return this.apiInstance.get<IGetProductsResponse>('/product');
   }
 
   /**

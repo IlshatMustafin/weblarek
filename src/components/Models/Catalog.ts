@@ -4,15 +4,15 @@ import { IProduct } from '../../types/index';
  * Класс Catalog отвечает за хранение и управление товарами в каталоге.
  */
 export class Catalog {
-  private _products: IProduct[] = [];
-  private _selectedProduct: IProduct | null = null;
+  private products: IProduct[] = [];
+  private selectedProduct: IProduct | null = null;
 
   /**
    * Сохраняет массив товаров в модели.
    * @param products — массив товаров для сохранения.
    */
   setProducts(products: IProduct[]): void {
-    this._products = products;
+    this.products = products;
   }
 
   /**
@@ -20,7 +20,7 @@ export class Catalog {
    * @returns — массив товаров.
    */
   getProducts(): IProduct[] {
-    return this._products;
+    return this.products;
   }
 
   /**
@@ -29,7 +29,7 @@ export class Catalog {
    * @returns — найденный товар или undefined, если не найден.
    */
   getProductById(id: string): IProduct | undefined {
-    return this._products.find(product => product.id === id);
+    return this.products.find(product => product.id === id);
   }
 
   /**
@@ -37,7 +37,7 @@ export class Catalog {
    * @param product — товар, который нужно отобразить.
    */
   setSelectedProduct(product: IProduct): void {
-    this._selectedProduct = product;
+    this.selectedProduct = product;
   }
 
   /**
@@ -45,6 +45,6 @@ export class Catalog {
    * @returns — выбранный товар или null, если ни один не выбран.
    */
   getSelectedProduct(): IProduct | null {
-    return this._selectedProduct;
+    return this.selectedProduct;
   }
 }
