@@ -1,14 +1,24 @@
 import { IBuyer, TPayment, TFormErrors } from '../../types/index';
+import { IEvents } from '../base/Events';
 
 /**
- * Класс Buyer отвечает за хранение и валидацию данных покупателя.
+ * Класс BuyerModel отвечает за хранение и валидацию данных покупателя.
  * Данные используются при оформлении заказа.
  */
-export class Buyer {
+export class BuyerModel {
   private payment: TPayment | null = null;
   private email: string  = '';
   private phone: string = '';
   private address: string = '';
+  protected events: IEvents;
+
+  /**
+   * Создает экземпляр модели данных покупателя
+   * @param events Брокер событий для уведомления презентера
+   */
+  constructor(events: IEvents) {
+    this.events = events;
+  }
 
   /**
    * Обновляет данные покупателя. Позволяет обновить одно или несколько полей,
@@ -48,9 +58,8 @@ export class Buyer {
   /**
    * Выполняет валидацию всех полей данных покупателя.
    * Возвращает объект с сообщениями об ошибках только для невалидных полей.
-   * Поле считается валидным, если оно не пустое.
-   * @returns — объект, где ключи — имена полей, значения — сообщения об ошибках.
    * Если поле валидно, оно отсутствует в результате.
+   * @returns — объект с ошибками валидации TFormErrors.
    */
   validate(): TFormErrors {
     const errors: TFormErrors = {};

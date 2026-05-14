@@ -1,5 +1,4 @@
 import { IApi, IGetProductsResponse, IOrderRequest, IOrderResponse } from '../../types';
-
 /**
  * Сервис для взаимодействия с API сервера «Веб‑ларёк»
  */
@@ -15,19 +14,19 @@ export class ApiService {
   }
 
   /**
-   * Выполняет GET‑запрос к /product/ для получения списка всех товаров
-   * @returns Promise с объектом, содержащим общее количество товаров и массив товаров
+   * Выполняет GET‑запрос к /product для получения списка всех товаров
+   * @returns Promise с объектом, полученным от сервера (общее количество и массив товаров)
    */
   async getProducts(): Promise<IGetProductsResponse> {
     return this.apiInstance.get<IGetProductsResponse>('/product');
   }
 
   /**
-   * Отправляет POST‑запрос к /order/ с данными заказа
-   * @param orderData Данные заказа, включающие информацию о покупателе и заказе
+   * Отправляет POST‑запрос к /order с данными заказа
+   * @param orderData Комбинация данных покупателя (IBuyer) и информации о заказе (items, total)
    * @returns Promise с объектом подтверждения заказа (ID и сумма)
    */
   async placeOrder(orderData: IOrderRequest): Promise<IOrderResponse> {
-    return this.apiInstance.post<IOrderResponse>('/order/', orderData);
+    return this.apiInstance.post<IOrderResponse>('/order', orderData);
   }
 }

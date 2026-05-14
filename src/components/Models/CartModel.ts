@@ -1,11 +1,21 @@
 import { IProduct } from '../../types/index';
+import { IEvents } from '../base/Events';
 
 /**
- * Класс Cart отвечает за управление корзиной покупок.
+ * Класс CartModel отвечает за управление корзиной покупок.
  * Хранит товары, выбранные пользователем для покупки.
  */
-export class Cart {
+export class CartModel {
   private items: IProduct[] = [];
+  protected events: IEvents;
+
+  /**
+   * Создает экземпляр модели корзины
+   * @param events Брокер событий для уведомления презентера об изменениях
+   */
+  constructor(events: IEvents) {
+    this.events = events;
+  }
 
   /**
    * Возвращает массив товаров, находящихся в корзине.
@@ -16,11 +26,12 @@ export class Cart {
   }
 
   /**
-   * Добавляет товар в корзину.
+   * Добавляет товар в корзину и триггерит событие изменения.
    * @param product - товар для добавления.
    */
   addItem(product: IProduct): void {
     this.items.push(product);
+    this.events.emit('basket:changed'); // Уведомляем презентер об обновлении счетчика/интерфейса
   }
 
   /**
@@ -29,6 +40,7 @@ export class Cart {
    */
   removeItem(id: string): void {
     this.items = this.items.filter(item => item.id !== id)
+    this.events.emit('basket:changed'); // Уведомляем презентер
   }
 
   /**
@@ -36,6 +48,7 @@ export class Cart {
    */
   clear(): void {
     this.items = [];
+    this.events.emit('basket:changed'); // Уведомляем презентер
   }
 
   /**

@@ -63,3 +63,102 @@ export interface IOrderResponse {
   id: string;          // ID созданного заказа
   total: number;       // подтверждённая сумма заказа
 }
+
+// --- Интерфейсы для рендера (слой View) ---
+/**
+ * Данные для отображения верхней панели хедера
+ */
+export interface IHeader {
+    counter: number; // Значение счетчика товаров в корзине
+}
+
+/**
+ * Данные для контейнера галереи каталога
+ */
+export interface ICatalog {
+    catalog: HTMLElement[]; // Массив готовых DOM-элементов карточек
+}
+
+/**
+ * Базовые данные для любой карточки товара
+ */
+export interface ICard {
+    id: string;
+    title: string;
+    price: number | null;
+}
+
+/**
+ * Данные карточки товара для каталога
+ */
+export interface ICatalogCard extends ICard {
+    image: string;
+    category: string;
+}
+
+/**
+ * Данные элемента товара внутри корзины
+ */
+export interface IBasketCard extends ICard {
+    index: number;
+}
+
+/**
+ * Данные для подробного просмотра товара в модальном окне
+ */
+export interface ICardPreview extends ICard {
+    image: string;
+    category: string;
+    description: string;
+    isInBasket: boolean; // Статус нахождения товара в корзине для управления кнопкой
+}
+
+/**
+ * Данные для модального окна-оболочки
+ */
+export interface IModalContent {
+    content: HTMLElement; // Элемент, который будет размещен внутри модального окна
+}
+
+/**
+ * Данные для отображения корзины
+ */
+export interface IBasketView {
+    items: HTMLElement[]; // Массив отрисованных строк товаров BasketCard
+    total: number;        // Итоговая стоимость
+}
+
+/**
+ * Базовое состояние для валидации любой формы
+ */
+export interface IFormState {
+    valid: boolean;   // Флаг доступности кнопки отправки
+    errors: string[]; // Массив текстовых сообщений об ошибках под полями
+}
+
+/**
+ * Данные формы первого шага (выбор оплаты и адрес)
+ */
+export interface IOrderForm {
+    payment: TPayment | null;
+    address: string;
+}
+
+/**
+ * Данные формы второго шага (контакты пользователя)
+ */
+export interface IContactsForm {
+    email: string;
+    phone: string;
+}
+
+/**
+ * Данные окна успешного оформления заказа
+ */
+export interface ISuccess {
+    total: number; // Списанная стоимость товаров
+}
+
+export interface ICardActions {
+    onClick: (event: MouseEvent) => void;
+}

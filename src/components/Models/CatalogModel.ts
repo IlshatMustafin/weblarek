@@ -1,18 +1,29 @@
 import { IProduct } from '../../types/index';
+import { IEvents } from '../base/Events';
 
 /**
- * Класс Catalog отвечает за хранение и управление товарами в каталоге.
+ * Класс CatalogModel отвечает за хранение и управление товарами в каталоге.
  */
-export class Catalog {
+export class CatalogModel {
   private products: IProduct[] = [];
   private selectedProduct: IProduct | null = null;
+  protected events: IEvents;
 
+   /**
+   * Создает экземпляр модели каталога
+   * @param events Брокер событий для уведомления презентера об изменениях
+   */
+  constructor(events: IEvents) {
+    this.events = events;
+  }
+  
   /**
-   * Сохраняет массив товаров в модели.
+   * Сохраняет массив товаров в модели и инициирует событие обновления.
    * @param products — массив товаров для сохранения.
    */
   setProducts(products: IProduct[]): void {
     this.products = products;
+    this.events.emit('items:changed', this.products); // Инициируем событие для отрисовки галереи
   }
 
   /**
@@ -38,6 +49,7 @@ export class Catalog {
    */
   setSelectedProduct(product: IProduct): void {
     this.selectedProduct = product;
+    this.events.emit('card:select', product); // Опционально: уведомляем об открытии карточки
   }
 
   /**
