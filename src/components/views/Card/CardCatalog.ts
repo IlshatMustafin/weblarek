@@ -15,7 +15,6 @@ export class CardCatalog extends Card<ICatalogCard> {
         this.categoryElement = ensureElement<HTMLElement>('.card__category', this.container);
         this.imageElement = ensureElement<HTMLImageElement>('.card__image', this.container);
 
-        // Используем переданный коллбэк от преподавателя
         if (actions?.onClick) {
             this.container.addEventListener('click', actions.onClick);
         }
@@ -25,7 +24,7 @@ export class CardCatalog extends Card<ICatalogCard> {
         this.categoryElement.textContent = value;
         this.categoryElement.className = 'card__category';
         
-        // Маппинг категорий
+        // Маппинг категорий.
         const modifier = categoryMap[value as CategoryKey] || 'card__category_other';
         this.categoryElement.classList.add(modifier);
     }

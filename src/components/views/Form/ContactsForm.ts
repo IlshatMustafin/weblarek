@@ -3,16 +3,16 @@ import { IEvents } from '../../base/Events';
 import { IContactsForm } from '../../../types';
 
 /**
- * Класс формы контактных данных пользователя перед отправкой на сервер
+ * Класс формы контактных данных пользователя перед отправкой на сервер.
  */
 export class ContactsForm extends Form<IContactsForm> {
     /**
-     * @param container Элемент формы контактов с name="contacts"
-     * @param events Брокер событий
+     * @param container Элемент формы контактов.
+     * @param events Брокер событий.
      */
     constructor(container: HTMLFormElement, events: IEvents) {
         super(container, events);
-        // Конструктор делегирует всю работу по поиску и навешиванию инпутов родителю Form
+        // Конструктор делегирует всю работу по поиску и навешиванию инпутов родителю Form.
     }
 
     set email(value: string) {

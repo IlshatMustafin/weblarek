@@ -49,7 +49,7 @@ export class CatalogModel {
    */
   setSelectedProduct(product: IProduct): void {
     this.selectedProduct = product;
-    this.events.emit('card:select', product); // Опционально: уведомляем об открытии карточки
+    this.events.emit('card:select', product); // Уведомляем об открытии карточки
   }
 
   /**

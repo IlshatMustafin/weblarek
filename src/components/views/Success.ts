@@ -11,26 +11,26 @@ export class Success extends Component<ISuccess> {
     protected closeButton: HTMLButtonElement;
 
     /**
-     * @param container Склонированный элемент шаблона успешного заказа (.order-success)
-     * @param actions Объект с коллбэком для обработки закрытия окна по паттерну учителя
+     * @param container Склонированный элемент шаблона успешного заказа (.order-success).
+     * @param actions Объект с коллбэком для обработки закрытия окна.
      */
     constructor(container: HTMLElement, actions?: ICardActions) {
         super(container);
 
-        // Поиск элементов разметки согласно документации
+        // Поиск элементов разметки согласно документации.
         this.totalDescription = ensureElement<HTMLElement>('.order-success__description', this.container);
         this.closeButton = ensureElement<HTMLButtonElement>('.order-success__close', this.container);
 
-        // Все слушатели устанавливаются один раз в конструкторе по ТЗ
+        // Все слушатели устанавливаются один раз в конструкторе.
         if (actions?.onClick) {
             this.closeButton.addEventListener('click', actions.onClick);
         }
     }
 
     /**
-     * Сеттер для отображения текста со списанной стоимостью товаров по ТЗ
+     * Сеттер для отображения текста со списанной стоимостью товаров.
      */
     set total(value: number) {
-        this.totalDescription.textContent = `Списано ${value} синериумов`;
+        this.totalDescription.textContent = `Списано ${value} синапсов`;
     }
 }

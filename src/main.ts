@@ -1,16 +1,16 @@
 import './scss/styles.scss';
 
-// Базовые компоненты
+// Базовые компоненты.
 import { EventEmitter } from './components/base/Events';
 import { Api } from './components/base/Api';
 
-// Сервис и Модели данных (Model)
+// Сервис и Модели данных (Model).
 import { ApiService } from './components/Models/ApiService';
 import { CatalogModel } from './components/Models/CatalogModel';
 import { CartModel } from './components/Models/CartModel';
 import { BuyerModel } from './components/Models/BuyerModel';
 
-// Компоненты отображения (View)
+// Компоненты отображения (View).
 import { Header } from './components/views/Header';
 import { Catalog } from './components/views/Catalog';
 import { CardCatalog } from './components/views/Card/CardCatalog';
@@ -22,7 +22,7 @@ import { OrderForm } from './components/views/Form/OrderForm';
 import { ContactsForm } from './components/views/Form/ContactsForm';
 import { Success } from './components/views/Success';
 
-// Константы и утилиты
+// Константы и утилиты.
 import { API_URL, CDN_URL } from './utils/constants';
 import { cloneTemplate, ensureElement } from './utils/utils';
 import { IProduct, IBuyer } from './types';
@@ -56,7 +56,7 @@ const basketView = new Basket(cloneTemplate(basketTemplate), events);
 const orderForm = new OrderForm(cloneTemplate(orderTemplate), events);
 const contactsForm = new ContactsForm(cloneTemplate(contactsTemplate), events);
 
-// --- ОБРАБОТЧИКИ СОБЫТИЙ МОДЕЛЕЙ ДАННЫХ (Реактивный рендер) ---
+// --- ОБРАБОТЧИКИ СОБЫТИЙ МОДЕЛЕЙ ДАННЫХ ---
 
 // 1. Изменение каталога товаров — отрисовка главной страницы
 events.on('items:changed', (products: IProduct[]) => {
@@ -64,7 +64,7 @@ events.on('items:changed', (products: IProduct[]) => {
         return new CardCatalog(cloneTemplate(cardCatalogTemplate), {
             onClick: () => {
                 catalogModel.setSelectedProduct(item);
-                // По ТЗ: при нажатии на карточку открывается модальное окно с превью
+                // При нажатии на карточку открывается модальное окно с превью
                 const preview = new CardPreview(cloneTemplate(cardPreviewTemplate), {
                     onClick: () => {
                         if (cartModel.hasItem(item.id)) {
@@ -72,7 +72,7 @@ events.on('items:changed', (products: IProduct[]) => {
                         } else {
                             cartModel.addItem(item);
                         }
-                        // По ТЗ: после нажатия кнопки покупки/удаления окно закрывается
+                        // После нажатия кнопки покупки/удаления окно закрывается
                         modal.close();
                     }
                 });
@@ -95,7 +95,7 @@ events.on('items:changed', (products: IProduct[]) => {
 
 // 2. Изменение содержимого корзины — обновление счетчика и состава
 events.on('basket:changed', () => {
-    // Обновляем счетчик в хедере по ТЗ
+    // Обновляем счетчик в хедере
     header.counter = cartModel.getItemCount();
 
     // Перерисовываем элементы внутри корзины
@@ -153,21 +153,28 @@ events.on('order:open', () => {
     modal.open();
 });
 
-// Изменение полей в формах
+// Изменение полей в форме адреса
 events.on(/^order:.*:change$/, (data: Partial<IBuyer>) => {
     buyerModel.setData(data);
-    buyerModel.validate();
+    // Получаем ошибки и генерируем событие для презентера.
+    const errors = buyerModel.validate();
+    events.emit('buyer:form-errors', errors);
 });
 
+// Изменение полей в форме контактов
 events.on(/^contacts:.*:change$/, (data: Partial<IBuyer>) => {
     buyerModel.setData(data);
-    buyerModel.validate();
+    // Получаем ошибки и генерируем событие для презентера.
+    const errors = buyerModel.validate();
+    events.emit('buyer:form-errors', errors);
 });
 
 // Клик по кнопкам выбора оплаты в OrderForm
 events.on('order:payment-change', (data: { target: string }) => {
     buyerModel.setData({ payment: data.target as 'card' | 'cash' });
-    buyerModel.validate();
+    // Получаем ошибки и генерируем событие для презентера.
+    const errors = buyerModel.validate();
+    events.emit('buyer:form-errors', errors);
 });
 
 // Отправка первого шага формы -> Переход к контактам
@@ -181,7 +188,7 @@ events.on('order:submit', () => {
     modal.open();
 });
 
-// Отправка второго шага формы -> Передача заказа на сервер по ТЗ
+// Отправка второго шага формы -> Передача заказа на сервер
 events.on('contacts:submit', () => {
     const orderData = {
         ...buyerModel.getData(),
@@ -191,7 +198,7 @@ events.on('contacts:submit', () => {
 
     apiService.placeOrder(orderData)
         .then((res) => {
-            // ТЗ шаг 2: появляется сообщение об успехе, очищается корзина и модель
+            // Шаг 2: появляется сообщение об успехе, очищается корзина и модель
             const success = new Success(cloneTemplate(successTemplate), {
                 onClick: () => modal.close()
             });
@@ -207,9 +214,9 @@ events.on('contacts:submit', () => {
         });
 });
 
-// Требование ТЗ ко всем страницам: блокировка/разблокировка скролла
+// Блокировка/разблокировка скролла
 events.on('modal:open', () => {
-    document.body.classList.add('page__wrapper_locked'); // Твой CSS-класс для блокировки скролла
+    document.body.classList.add('page__wrapper_locked'); // CSS-класс для блокировки скролла
 });
 
 events.on('modal:close', () => {
@@ -220,7 +227,7 @@ events.on('modal:close', () => {
 // --- СТАРТ ПРИЛОЖЕНИЯ (Запрос данных с сервера) ---
 apiService.getProducts()
     .then((data) => {
-        // Добавляем CDN_URL к изображениям товаров в презентере, как требует ТЗ
+        // Добавляем CDN_URL к изображениям товаров в презентере
         const processedItems = data.items.map(item => ({
             ...item,
             image: CDN_URL + item.image

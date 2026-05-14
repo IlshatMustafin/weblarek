@@ -13,8 +13,8 @@ export class BuyerModel {
   protected events: IEvents;
 
   /**
-   * Создает экземпляр модели данных покупателя
-   * @param events Брокер событий для уведомления презентера
+   * Создает экземпляр модели данных покупателя.
+   * @param events Брокер событий для уведомления презентера.
    */
   constructor(events: IEvents) {
     this.events = events;

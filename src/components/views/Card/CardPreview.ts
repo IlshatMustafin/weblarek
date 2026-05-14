@@ -19,7 +19,6 @@ export class CardPreview extends Card<ICardPreview> {
         this.descriptionElement = ensureElement<HTMLElement>('.card__text', this.container);
         this.actionButton = ensureElement<HTMLButtonElement>('.card__button', this.container);
 
-        // Вешаем коллбэк на кнопку действия по ТЗ
         if (actions?.onClick) {
             this.actionButton.addEventListener('click', actions.onClick);
         }
@@ -44,9 +43,9 @@ export class CardPreview extends Card<ICardPreview> {
         if (value === null) {
             this.priceElement.textContent = 'Бесценно';
             this.actionButton.disabled = true;
-            this.actionButton.textContent = 'Недоступно'; // Требование ТЗ
+            this.actionButton.textContent = 'Недоступно';
         } else {
-            this.priceElement.textContent = `${value} синериумов`;
+            this.priceElement.textContent = `${value} синапсов`;
             this.actionButton.disabled = false;
         }
     }

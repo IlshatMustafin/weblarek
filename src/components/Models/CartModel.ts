@@ -10,8 +10,8 @@ export class CartModel {
   protected events: IEvents;
 
   /**
-   * Создает экземпляр модели корзины
-   * @param events Брокер событий для уведомления презентера об изменениях
+   * Создает экземпляр модели корзины.
+   * @param events Брокер событий для уведомления презентера об изменениях.
    */
   constructor(events: IEvents) {
     this.events = events;
@@ -31,7 +31,7 @@ export class CartModel {
    */
   addItem(product: IProduct): void {
     this.items.push(product);
-    this.events.emit('basket:changed'); // Уведомляем презентер об обновлении счетчика/интерфейса
+    this.events.emit('basket:changed'); // Уведомляем презентер об обновлении счетчика/интерфейса.
   }
 
   /**
@@ -40,7 +40,7 @@ export class CartModel {
    */
   removeItem(id: string): void {
     this.items = this.items.filter(item => item.id !== id)
-    this.events.emit('basket:changed'); // Уведомляем презентер
+    this.events.emit('basket:changed'); // Уведомляем презентер.
   }
 
   /**
@@ -48,7 +48,7 @@ export class CartModel {
    */
   clear(): void {
     this.items = [];
-    this.events.emit('basket:changed'); // Уведомляем презентер
+    this.events.emit('basket:changed'); // Уведомляем презентер.
   }
 
   /**

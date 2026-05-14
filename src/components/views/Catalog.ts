@@ -10,18 +10,17 @@ export class Catalog extends Component<ICatalog> {
     protected catalogContainer: HTMLElement;
 
     /**
-     * @param container Корневой элемент-контейнер галереи (.gallery)
+     * @param container Корневой элемент-контейнер галереи (.gallery).
      */
     constructor(container: HTMLElement) {
         super(container);
 
-        // Согласно документации, если в шаблоне есть внутренняя обертка, ищем её.
-        // Если карточки вставляются прямо в корень .gallery, можно использовать this.container.
+        // Если в шаблоне есть внутренняя обертка, ищем её.
         this.catalogContainer = this.container;
     }
 
     /**
-     * Заменяет всё содержимое контейнера переданным массивом элементов карточек
+     * Заменяет всё содержимое контейнера переданным массивом элементов карточек.
      */
     set catalog(items: HTMLElement[]) {
         this.catalogContainer.replaceChildren(...items);

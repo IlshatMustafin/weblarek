@@ -16,28 +16,28 @@ export class Modal extends Component<IModalContent> {
     protected events: IEvents;
 
     /**
-     * @param container Корневой элемент разметки модального окна (.modal)
-     * @param events Брокер событий для уведомления презентера
+     * @param container Корневой элемент разметки модального окна (.modal).
+     * @param events Брокер событий для уведомления презентера.
      */
     constructor(container: HTMLElement, events: IEvents) {
         super(container);
         this.events = events;
 
-        // Поиск элементов управления внутри модального окна
+        // Поиск элементов управления внутри модального окна.
         this.closeButton = ensureElement<HTMLButtonElement>('.modal__close', this.container);
         this.contentElement = ensureElement<HTMLElement>('.modal__content', this.container);
 
-        // Событие закрытия по клику на крестик
+        // Событие закрытия по клику на крестик.
         this.closeButton.addEventListener('click', () => this.close());
 
-        // Требование ТЗ: закрытие по клику вне модального окна (на оверлей)
+        // Закрытие по клику вне модального окна (на оверлей).
         this.container.addEventListener('click', (e) => {
             if (e.target === this.container) {
                 this.close();
             }
         });
 
-        // Предотвращаем закрытие при клике внутри самого контента окна
+        // Предотвращаем закрытие при клике внутри самого контента окна.
         const modalContainer = ensureElement<HTMLElement>('.modal__container', this.container);
         modalContainer.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -45,14 +45,14 @@ export class Modal extends Component<IModalContent> {
     }
 
     /**
-     * Заменяет текущее содержимое модального окна новым элементом
+     * Заменяет текущее содержимое модального окна новым элементом.
      */
     set content(value: HTMLElement) {
         this.contentElement.replaceChildren(value);
     }
 
     /**
-     * Открывает модальное окно и блокирует скролл страницы
+     * Открывает модальное окно и блокирует скролл страницы.
      */
     open(): void {
         this.container.classList.add('modal_active');
@@ -60,11 +60,11 @@ export class Modal extends Component<IModalContent> {
     }
 
     /**
-     * Закрывает модальное окно и восстанавливает скролл страницы
+     * Закрывает модальное окно и восстанавливает скролл страницы.
      */
     close(): void {
         this.container.classList.remove('modal_active');
-        this.contentElement.innerHTML = ''; // Очищаем контент при закрытии
+        this.contentElement.innerHTML = ''; // Очищаем контент при закрытии.
         this.events.emit('modal:close');
     }
 }

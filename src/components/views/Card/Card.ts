@@ -2,7 +2,7 @@ import { ensureElement } from '../../../utils/utils';
 import { Component } from '../../base/Component';
 
 /**
- * Базовый класс для всех типов карточек
+ * Базовый класс для всех типов карточек.
  */
 export abstract class Card<T> extends Component<T> {
     protected titleElement: HTMLElement;
@@ -22,11 +22,11 @@ export abstract class Card<T> extends Component<T> {
         if (value === null) {
             this.priceElement.textContent = 'Бесценно';
         } else {
-            this.priceElement.textContent = `${value} синериумов`;
+            this.priceElement.textContent = `${value} синапсов`;
         }
     }
 
-    // Вспомогательный геттер для передачи имени в alt картинки, как у учителя
+    // Вспомогательный геттер для передачи имени в alt картинки.
     get title(): string {
         return this.titleElement.textContent || '';
     }
