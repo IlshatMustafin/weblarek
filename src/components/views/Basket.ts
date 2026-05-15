@@ -26,6 +26,8 @@ export class Basket extends Component<IBasketView> {
         this.totalPriceElement = ensureElement<HTMLElement>('.basket__price', this.container);
         this.orderButton = ensureElement<HTMLButtonElement>('.basket__button', this.container);
 
+        this.items = []; // исправление от 14.05 + Блокировка кнопки оформления до загрузки.
+
         // Все слушатели устанавливаются один раз в конструкторе
         this.orderButton.addEventListener('click', () => {
             // О действиях пользователя класс уведомляет через брокер событий.
@@ -43,12 +45,8 @@ export class Basket extends Component<IBasketView> {
             this.basketList.replaceChildren(...cards);
             this.orderButton.removeAttribute('disabled'); // Активируем кнопку.
         } else {
-            // Если товаров нет — выводится надпись «Корзина пуста».
-            const emptyNotice = document.createElement('p');
-            emptyNotice.className = 'basket__empty';
-            emptyNotice.textContent = 'Корзина пуста';
-            
-            this.basketList.replaceChildren(emptyNotice);
+             // исправление от 14.05 - Удалена генерация.            
+            this.basketList.replaceChildren();
             this.orderButton.setAttribute('disabled', 'true'); // Деактивируем кнопку.
         }
     }

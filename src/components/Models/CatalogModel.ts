@@ -23,7 +23,7 @@ export class CatalogModel {
    */
   setProducts(products: IProduct[]): void {
     this.products = products;
-    this.events.emit('items:changed', this.products); // Инициируем событие для отрисовки галереи
+    this.events.emit('items:changed'); // исправление от 14.05 - Только событие.
   }
 
   /**
@@ -49,7 +49,7 @@ export class CatalogModel {
    */
   setSelectedProduct(product: IProduct): void {
     this.selectedProduct = product;
-    this.events.emit('card:select', product); // Уведомляем об открытии карточки
+    this.events.emit('preview:changed'); // исправление от 14.05 - Только событие.
   }
 
   /**

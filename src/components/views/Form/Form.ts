@@ -55,10 +55,5 @@ export class Form<T> extends Component<IFormState & T> {
         this.errorsElement.textContent = value.join(', ');
     }
 
-    /**
-     * Очистка полей ввода формы.
-     */
-    clear(): void {
-        (this.container as HTMLFormElement).reset();
-    }
+    // исправление от 14.05 - Удален сеттер.
 }

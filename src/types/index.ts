@@ -106,11 +106,12 @@ export interface IBasketCard extends ICard {
 /**
  * Данные для подробного просмотра товара в модальном окне.
  */
-export interface ICardPreview extends ICard {
+export interface ICardPreview extends ICard { // исправление от 14.05 + расширение.
     image: string;
     category: string;
     description: string;
-    isInBasket: boolean; // Статус нахождения товара в корзине для управления кнопкой.
+    buttonText: string;
+    buttonDisabled: boolean;
 }
 
 /**
@@ -161,4 +162,8 @@ export interface ISuccess {
 
 export interface ICardActions {
     onClick: (event: MouseEvent) => void;
+}
+
+export interface IPage {
+    locked: boolean;
 }

@@ -9,6 +9,7 @@ import { IOrderForm } from '../../../types';
 export class OrderForm extends Form<IOrderForm> {
     protected cardButton: HTMLButtonElement;
     protected cashButton: HTMLButtonElement;
+    protected addressInput: HTMLInputElement;
 
     /**
      * @param container Элемент формы оформления заказа.
@@ -20,6 +21,7 @@ export class OrderForm extends Form<IOrderForm> {
         // Находим альтернативные кнопки выбора оплаты.
         this.cardButton = ensureElement<HTMLButtonElement>('button[name="card"]', this.container);
         this.cashButton = ensureElement<HTMLButtonElement>('button[name="cash"]', this.container);
+        this.addressInput = ensureElement<HTMLInputElement>('input[name="address"]', this.container); // исправление от 14.05 + Находим инпут.
 
         // Слушатели клика устанавливаются один раз в конструкторе.
         this.cardButton.addEventListener('click', () => {
@@ -48,12 +50,9 @@ export class OrderForm extends Form<IOrderForm> {
     }
 
     /**
-     * Сеттер для принудительной установки адреса в инпут (например, при очистке).
+     * Сеттер установки адреса в инпут.
      */
     set address(value: string) {
-        const input = this.container.querySelector('input[name="address"]') as HTMLInputElement;
-        if (input) {
-            input.value = value;
-        }
+        this.addressInput.value = value; // исправление от 14.05 + Запись.
     }
 }

@@ -40,18 +40,14 @@ export class CardPreview extends Card<ICardPreview> {
     }
 
     set price(value: number | null) {
-        if (value === null) {
-            this.priceElement.textContent = 'Бесценно';
-            this.actionButton.disabled = true;
-            this.actionButton.textContent = 'Недоступно';
-        } else {
-            this.priceElement.textContent = `${value} синапсов`;
-            this.actionButton.disabled = false;
-        }
+        this.priceElement.textContent = value === null ? 'Бесценно' : `${value} синапсов`; // исправление от 14.05 + цена.
     }
 
-    set isInBasket(value: boolean) {
-        if (this.actionButton.textContent === 'Недоступно') return;
-        this.actionButton.textContent = value ? 'Удалить из корзины' : 'В корзину';
+    set buttonText(value: string) {
+        this.actionButton.textContent = value; // исправление от 14.05 + текст кнопки.
+    }
+
+    set buttonDisabled(value: boolean) {
+        this.actionButton.disabled = value; // исправление от 14.05 + видимость кнопки.
     }
 }
